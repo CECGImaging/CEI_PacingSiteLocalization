@@ -28,6 +28,8 @@ import math
 class ScoreException(Exception):
     pass
 
+def magnitudesqure(vector):
+    return np.sum([a ** 2 for a in vector])
 
 def matchInputFile(truthFile, testDir):
 
@@ -124,14 +126,22 @@ def computePOT(truthMatrix, testMatrix):
     sumCorrelation=0
     sumError=0
     for i in range(n):
-        truthVec=truthMatrix[:,i]
-        testVec=testMatrix[:,i]
+        truthVec=(truthMatrix[:,i])
+        testVec=(testMatrix[:,i])
         sumCorrelation= sumCorrelation + scipy.stats.pearsonr(truthVec, testVec)[0]
         Error_t=math.pow(np.linalg.norm(truthVec-testVec),2)
-        magtruthVect= math.pow(np.linalg.norm(truthVec),2)
+        magtruthVect = magnitudesqure(truthVec)
         sumError= sumError + Error_t/magtruthVect
+        print('Individual vectors:')
+        print(truthVec)
+        print(testVec)
+        print(Error_t)
+        print(np.array(truthVec-testVec))
+
 
     avgCorrelation=sumCorrelation/n
+    print('Sum error is:')
+    print(sumError)
     RMSEr=sumError/n
 
     metrics = [
