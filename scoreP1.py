@@ -61,6 +61,8 @@ def scoreP1(truthDir, testDir):
 
         print('This is File List')
         testPath = matchInputFile(truthFile, testDir)
+        if testPath== 0:
+            continue
 
        # print(testPath)
         truthPath = os.path.join(truthDir, truthFile)

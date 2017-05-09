@@ -125,6 +125,9 @@ def scoreAll(args):
     phaseNum = truthRe.group(1)
 
     scores = scoreP1(truthDir, testDir)
+    if scores==[]:
+        raise ScoreException(
+            'Internal error: There are no matching submission' )
 
 
     print('-------------------------Results are printed here-----------------------------')

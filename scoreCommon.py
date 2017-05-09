@@ -44,11 +44,15 @@ def matchInputFile(truthFile, testDir):
     ]
     #print(testPathCandidates)
     if not testPathCandidates:
-        raise ScoreException('No matching submission for: %s' % truthFile)
+        return(0)
+        #raise ScoreException('No matching submission for: %s' % truthFile)
     elif len(testPathCandidates) > 1:
         raise ScoreException(
             'Multiple matching submissions for: %s' % truthFile)
-    return testPathCandidates[0]
+    else:
+        return testPathCandidates[0]
+    print(testPathCandidates[0])
+
 
 
 def loadFileFromPath(filePath):
@@ -62,7 +66,7 @@ def loadFileFromPath(filePath):
         fileMatrix= scipy.io.loadmat(filePath)[file[0][0]]
         print(fileMatrix)
     except Exception as e:
-        raise ScoreException('Could not decode image "%s" because: "%s"' %
+        raise ScoreException('Could not decode matrix "%s" because: "%s"' %
                              (os.path.basename(filePath), str(e)))
 
     return fileMatrix
