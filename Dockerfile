@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER Zach Mullen <zach.mullen@kitware.com>
+MAINTAINER Jess Tate <jess@sci.utah.edu>
 
 RUN mkdir /covalic
 #RUN mkdir /covalic/_build
