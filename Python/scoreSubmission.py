@@ -78,8 +78,8 @@ def unzipAll(directory, delete=True):
                 if f.lower().endswith('.zip')]
     for zipFile in zipFiles:
         zipPath = os.path.join(directory, zipFile)
-        #print('This is zip path')
-        #print(zipPath)
+        print('This is zip path')
+        print(zipPath)
         extractZip(zipPath, directory)
         if delete:
             os.remove(zipPath)
@@ -89,11 +89,11 @@ def unzipAll(directory, delete=True):
 def scoreAll(args):
     # Unzip zip files contained in the input folders
     truthDir = args.groundtruth
-    #print('This is truth directory:')
-    #print(truthDir)
+    print('This is truth directory:')
+    print(truthDir)
     truthZipSubFiles = unzipAll(truthDir, delete=True)
-    #print('Reached here')
-    #print(truthZipSubFiles)
+    print('Reached here')
+    print(truthZipSubFiles)
     truthPath = None
     if truthZipSubFiles:
         truthPath = truthZipSubFiles[0]
@@ -108,16 +108,16 @@ def scoreAll(args):
 
     testDir = args.submission
     unzipAll(testDir, delete=True)
-    #    print('Unzip of both truth and test files successful!')
+    print('Unzip of both truth and test files successful!')
     # Identify which phase this is, based on ground truth file name
-#    print(truthPath)
-#print(os.path.basename(truthPath))
+    print(truthPath)
+    print(os.path.basename(truthPath))
     truthRe = re.match(
         r'^CEIPVC2017_([0-9])_(?:SEPTUMCENTER|LVLAT|LVAPEX|LVANTERIOR|RVPOSTERIOR|RVANTERIOR|LVLATEPI|LVLATENDO)_(?:AT|POT|LOC)'
         r'_GroundTruth\.mat$',
         os.path.basename(truthPath))
-#print('True path matched')
-#print(truthRe.group())
+    print('True path matched')
+    print(truthRe.group())
     if not truthRe:
         raise ScoreException(
             'Internal error: could not parse ground truth file name: %s' %
@@ -130,9 +130,9 @@ def scoreAll(args):
             'Internal error: There are no matching submission' )
 
 
-#print('-------------------------Results are printed here-----------------------------')
+    print('-------------------------Results are printed here-----------------------------')
     print(json.dumps(scores))
-#print('-------------------------End of Results-----------------------------')
+    print('-------------------------End of Results-----------------------------')
 
 
 

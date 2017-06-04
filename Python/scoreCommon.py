@@ -80,19 +80,19 @@ def computeLOC(truthVector, testVector):
     print(metric)
     metrics = [
         {
-            'name': 'Localization Error',
+            'name': 'localization_error',
             'value': LocalizationErr
         },
         {
-            'name': 'Potential Correlation',
+            'name':  'potential_correlation',
             'value': None
         },
         {
-            'name': 'Potential RMSE',
+            'name': 'potential_RMSE',
             'value': None
         },
         {
-            'name': 'Activation Time Correlation',
+            'name': 'AT_correlation',
             'value':  None
 
         }
@@ -106,19 +106,19 @@ def computeAT(truthVector, testVector):
 
     metrics = [
         {
-            'name': 'Localization Error',
+            'name': 'localization_error',
             'value': None
         },
         {
-            'name': 'Potential Correlation',
+            'name':  'potential_correlation',
             'value': None
         },
         {
-            'name': 'Potential RMSE',
+            'name': 'potential_RMSE',
             'value': None
         },
         {
-            'name': 'Activation Time Correlation',
+            'name': 'AT_correlation',
             'value': CorrelationAT
 
         }
@@ -150,19 +150,19 @@ def computePOT(truthMatrix, testMatrix):
 
     metrics = [
         {
-            'name': 'Localization Error',
+            'name': 'localization_error',
             'value': None
         },
         {
-            'name': 'Potential Correlation',
+            'name':  'potential_correlation',
             'value': avgCorrelation
         },
         {
-            'name': 'Potential RMSE',
+            'name': 'potential_RMSE',
             'value': RMSEr
         },
         {
-            'name': 'Activation Time Correlation',
+            'name': 'AT_correlation',
             'value': None
 
         }
