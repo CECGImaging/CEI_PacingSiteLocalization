@@ -27,10 +27,10 @@ def checkFile(truthPath, testPath, FileType):
 
     truthMatrix = loadFileFromPath(truthPath)
     testMatrix = loadFileFromPath(testPath)
-    print('TruthMatrix:')
-    print(truthMatrix.shape[0:2])
-    print('TestMatrix:')
-    print(truthMatrix.shape)
+    #print ('TruthMatrix:')
+    #print (truthMatrix.shape[0:2])
+    #print ('TestMatrix:')
+    #print (truthMatrix.shape)
 
     if testMatrix.shape[0:2] != truthMatrix.shape[0:2]:
         raise ScoreException('Matrix %s has dimensions %s; expected %s.' %
@@ -38,13 +38,13 @@ def checkFile(truthPath, testPath, FileType):
                               truthMatrix.shape[0:2]))
 
     if FileType == 'POT':
-        print(FileType)
+        #print (FileType)
         metrics = computePOT(truthMatrix, testMatrix)
     elif FileType == 'AT':
-        print(FileType)
+        #print (FileType)
         metrics = computeAT(truthMatrix, testMatrix)
     elif FileType == 'LOC':
-        print(FileType)
+        #print (FileType)
         metrics = computeLOC(truthMatrix, testMatrix)
     else:
         raise ScoreException(
@@ -59,17 +59,17 @@ def scoreP1(truthDir, testDir):
     scores = []
     for truthFile in sorted(os.listdir(truthDir)):
 
-        print('This is File List')
+        #print ('This is File List')
         testPath = matchInputFile(truthFile, testDir)
         if testPath== 0:
             continue
 
        # print(testPath)
         truthPath = os.path.join(truthDir, truthFile)
-        print(truthPath)
-        print(testPath)
+        #print (truthPath)
+        #print (testPath)
 
-        print('-----------------------------')
+        #print ('-----------------------------')
 
         FileName = truthFile.rsplit('_',1)[0]
         FileType = truthFile.rsplit('_')[3]
