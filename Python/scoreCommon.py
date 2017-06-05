@@ -35,14 +35,14 @@ def matchInputFile(truthFile, testDir):
 
     truthwithoutmat=os.path.splitext(truthFile)[0]
 
-    print(truthwithoutmat[:-12])
+    #print(truthwithoutmat[:-12])
 
     testPathCandidates = [
         os.path.join(testDir, testFile)
         for testFile in os.listdir(testDir)
         if  (truthwithoutmat[:-12] in testFile)
     ]
-    #print(testPathCandidates)
+    ##print(testPathCandidates)
     if not testPathCandidates:
         return(0)
         #raise ScoreException('No matching submission for: %s' % truthFile)
@@ -51,20 +51,20 @@ def matchInputFile(truthFile, testDir):
             'Multiple matching submissions for: %s' % truthFile)
     else:
         return testPathCandidates[0]
-    print(testPathCandidates[0])
+    #print(testPathCandidates[0])
 
 
 
 def loadFileFromPath(filePath):
     #Load a matlab file as a NumPy array, given a file path
     try:
-        print('Reached .mat reading part')
+        #print('Reached .mat reading part')
         file = scipy.io.whosmat(filePath)
-        print(file)
-        print(file[0][0])
+        #print(file)
+        #print(file[0][0])
 
         fileMatrix= scipy.io.loadmat(filePath)[file[0][0]]
-        print(fileMatrix)
+        #print(fileMatrix)
     except Exception as e:
         raise ScoreException('Could not decode matrix "%s" because: "%s"' %
                              (os.path.basename(filePath), str(e)))
@@ -77,22 +77,22 @@ def loadFileFromPath(filePath):
 def computeLOC(truthVector, testVector):
 
     LocalizationErr = numpy.linalg.norm(truthVector - testVector)
-    print(metric)
+    #print(metric)
     metrics = [
         {
-            'name': 'Localization Error',
+            'name': 'localization_error',
             'value': LocalizationErr
         },
         {
-            'name': 'Potential Correlation',
+            'name':  'potential_correlation',
             'value': None
         },
         {
-            'name': 'Potential RMSE',
+            'name': 'potential_RMSE',
             'value': None
         },
         {
-            'name': 'Activation Time Correlation',
+            'name': 'AT_correlation',
             'value':  None
 
         }
@@ -102,23 +102,23 @@ def computeLOC(truthVector, testVector):
 
 def computeAT(truthVector, testVector):
     CorrelationAT= scipy.stats.pearsonr(truthVector, testVector)
-    print(metric)
+    #print(metric)
 
     metrics = [
         {
-            'name': 'Localization Error',
+            'name': 'localization_error',
             'value': None
         },
         {
-            'name': 'Potential Correlation',
+            'name':  'potential_correlation',
             'value': None
         },
         {
-            'name': 'Potential RMSE',
+            'name': 'potential_RMSE',
             'value': None
         },
         {
-            'name': 'Activation Time Correlation',
+            'name': 'AT_correlation',
             'value': CorrelationAT
 
         }
@@ -136,33 +136,33 @@ def computePOT(truthMatrix, testMatrix):
         Error_t=math.pow(np.linalg.norm(truthVec-testVec),2)
         magtruthVect = magnitudesqure(truthVec)
         sumError= sumError + Error_t/magtruthVect
-        print('Individual vectors:')
-        print(truthVec)
-        print(testVec)
-        print(Error_t)
-        print(np.array(truthVec-testVec))
+        #print('Individual vectors:')
+        #print(truthVec)
+        #print(testVec)
+        #print(Error_t)
+        #print(np.array(truthVec-testVec))
 
 
     avgCorrelation=sumCorrelation/n
-    print('Sum error is:')
-    print(sumError)
+    #print('Sum error is:')
+    #print(sumError)
     RMSEr=sumError/n
 
     metrics = [
         {
-            'name': 'Localization Error',
+            'name': 'localization_error',
             'value': None
         },
         {
-            'name': 'Potential Correlation',
+            'name':  'potential_correlation',
             'value': avgCorrelation
         },
         {
-            'name': 'Potential RMSE',
+            'name': 'potential_RMSE',
             'value': RMSEr
         },
         {
-            'name': 'Activation Time Correlation',
+            'name': 'AT_correlation',
             'value': None
 
         }
