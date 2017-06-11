@@ -23,7 +23,7 @@ import os
 from scoreCommon import ScoreException, matchInputFile, loadFileFromPath, computePOT, computeAT, computeLOC
 
 
-def checkFile(truthPath, testPath, FileType):
+def checkFile(truthPath, testPath):
 
     truthMatrix = loadFileFromPath(truthPath)
     testMatrix = loadFileFromPath(testPath)
@@ -36,6 +36,10 @@ def checkFile(truthPath, testPath, FileType):
         raise ScoreException('Matrix %s has dimensions %s; expected %s.' %
                              (os.path.basename(testPath), testMatrix.shape[0:2],
                               truthMatrix.shape[0:2]))
+
+def scoreP1(truthPath, testPath, FileType):
+    truthMatrix = loadFileFromPath(truthPath)
+    testMatrix = loadFileFromPath(testPath)
 
     if FileType == 'POT':
         #print (FileType)
@@ -53,8 +57,47 @@ def checkFile(truthPath, testPath, FileType):
     #metrics.extend(computeSimilarityMetrics(truthBinaryImage, testBinaryImage))
     return metrics
 
+def scoreP2(truthPath, testPath, FileType):
+    truthMatrix = loadFileFromPath(truthPath)
+    testMatrix = loadFileFromPath(testPath)
 
-def scoreP1(truthDir, testDir):
+    if FileType == 'POT':
+        #print (FileType)
+        metrics = computePOT(truthMatrix, testMatrix)
+    elif FileType == 'AT':
+        #print (FileType)
+        metrics = computeAT(truthMatrix, testMatrix)
+    elif FileType == 'LOC':
+        #print (FileType)
+        metrics = computeLOC(truthMatrix, testMatrix)
+    else:
+        raise ScoreException(
+            'Internal error: unknown ground truth phase number: %s' %
+            os.path.basename(truthPath))
+    #metrics.extend(computeSimilarityMetrics(truthBinaryImage, testBinaryImage))
+    return metrics
+
+def scoreP3(truthPath, testPath, FileType):
+    truthMatrix = loadFileFromPath(truthPath)
+    testMatrix = loadFileFromPath(testPath)
+
+    if FileType == 'POT':
+        #print (FileType)
+        metrics = computePOT(truthMatrix, testMatrix)
+    elif FileType == 'AT':
+        #print (FileType)
+        metrics = computeAT(truthMatrix, testMatrix)
+    elif FileType == 'LOC':
+        #print (FileType)
+        metrics = computeLOC(truthMatrix, testMatrix)
+    else:
+        raise ScoreException(
+            'Internal error: unknown ground truth phase number: %s' %
+            os.path.basename(truthPath))
+    #metrics.extend(computeSimilarityMetrics(truthBinaryImage, testBinaryImage))
+    return metrics
+
+def score(truthDir, testDir):
     # Iterate over each file and call scoring executable on the pair
     scores = []
     for truthFile in sorted(os.listdir(truthDir)):
@@ -73,8 +116,21 @@ def scoreP1(truthDir, testDir):
 
         FileName = truthFile.rsplit('_',1)[0]
         FileType = truthFile.rsplit('_')[3]
+        PhaseNum = truthFile.rsplit('_')[1]
+        print('The PhaseNum is:')
+        print(PhaseNum)
 
-        metrics= checkFile(truthPath, testPath, FileType)
+        checkFile(truthPath, testPath)
+
+        if PhaseNum == '1':
+            metrics=scoreP1(truthPath, testPath, FileType)
+        elif PhaseNum=='2':
+            metrics = scoreP2(truthPath, testPath, FileType)
+        elif PhaseNum=='3':
+            metrics = scoreP3(truthPath, testPath, FileType)
+        else:
+            raise ScoreException(
+                'Error: Phase number must be either 1 or 2 or 3')
 
         #print(metrics)
         #print(FileType)
