@@ -76,7 +76,7 @@ def loadFileFromPath(filePath):
 
 def computeLOC(truthVector, testVector):
 
-    LocalizationErr = numpy.linalg.norm(truthVector - testVector)
+    LocalizationErr = np.linalg.norm(truthVector - testVector)
     #print(metric)
     metrics = [
         {
