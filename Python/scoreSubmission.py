@@ -132,7 +132,7 @@ def scoreAll(args):
         raise ScoreException(
             'Internal error: There are no matching submission' )
 
-
+    #print(scores)
     #print ('-------------------------Results are printed here-----------------------------')
     print(json.dumps(scores))
     #print ('-------------------------End of Results-----------------------------')

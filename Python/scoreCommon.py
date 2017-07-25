@@ -119,7 +119,7 @@ def computeAT(truthVector, testVector):
         },
         {
             'name': 'AT_correlation',
-            'value': CorrelationAT
+            'value': CorrelationAT[1]
 
         }
     ]
