@@ -77,6 +77,8 @@ def loadFileFromPath(filePath):
 def computeLOC(truthVector, testVector):
 
     LocalizationErr = np.linalg.norm(truthVector - testVector)
+    #print(truthVector,testVector)
+    #print(LocalizationErr)
     #print(metric)
     metrics = [
         {
@@ -101,7 +103,9 @@ def computeLOC(truthVector, testVector):
 
 
 def computeAT(truthVector, testVector):
-    CorrelationAT= scipy.stats.pearsonr(truthVector, testVector)
+    (CorrelationAT,p_val) = scipy.stats.pearsonr(truthVector, testVector)
+    #print(truthVector,testVector)
+    #print(CorrelationAT)
     #print(metric)
 
     metrics = [
@@ -119,7 +123,7 @@ def computeAT(truthVector, testVector):
         },
         {
             'name': 'AT_correlation',
-            'value': CorrelationAT[1]
+            'value': CorrelationAT[0]
 
         }
     ]
