@@ -136,7 +136,7 @@ def computePOT(truthMatrix, testMatrix):
     for i in range(n):
         truthVec=(truthMatrix[:,i])
         testVec=(testMatrix[:,i])
-		if (truthVec != truthVec[0]) & (testVec != testVec[0])
+	    if (truthVec != truthVec[0]) & (testVec != testVec[0]):
         	sumCorrelation= sumCorrelation + scipy.stats.pearsonr(truthVec, testVec)[0]
         Error_t=math.pow(np.linalg.norm(truthVec-testVec),2)
         magtruthVect = magnitudesqure(truthVec)
