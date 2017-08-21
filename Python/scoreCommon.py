@@ -136,6 +136,7 @@ def computePOT(truthMatrix, testMatrix):
     for i in range(n):
         truthVec=(truthMatrix[:,i])
         testVec=(testMatrix[:,i])
+        # TODO: find more eleigant solution than just 0 for constant inputs
         if np.min(np.abs(truthVec-truthVec[0]))>0 and np.min(np.abs(testVec-testVec[0]))>0:
             sumCorrelation= sumCorrelation + scipy.stats.pearsonr(truthVec, testVec)[0]
         Error_t=math.pow(np.linalg.norm(truthVec-testVec),2)
