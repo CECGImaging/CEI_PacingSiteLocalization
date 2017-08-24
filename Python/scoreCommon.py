@@ -76,7 +76,7 @@ def loadFileFromPath(filePath):
 
 def computeLOC(truthVector, testVector):
 
-    LocalizationErr = numpy.linalg.norm(truthVector - testVector)
+    LocalizationErr = np.linalg.norm(truthVector - testVector)
     #print(metric)
     metrics = [
         {
@@ -135,7 +135,7 @@ def computePOT(truthMatrix, testMatrix):
         # TODO: find more eleigant solution than just 0 for constant inputs
         if np.sum(np.abs(truthVec-truthVec.mean()))>0 and np.sum(np.abs(testVec-testVec.mean()))>0:
             sumCorrelation= sumCorrelation + scipy.stats.pearsonr(truthVec, testVec)[0]
-		elif np.sum(np.abs(truthVec-truthVec.mean()))==0 and np.sum(np.abs(testVec-testVec.mean()))==0:
+        elif np.sum(np.abs(truthVec-truthVec.mean()))==0 and np.sum(np.abs(testVec-testVec.mean()))==0:
             sumCorrelation= sumCorrelation + 1
 
         Error_t=math.pow(np.linalg.norm(truthVec-testVec),2)
@@ -149,9 +149,11 @@ def computePOT(truthMatrix, testMatrix):
 
 
     avgCorrelation=sumCorrelation/n
-    #print('Sum error is:')
-    #print(sumError)
+#    print('Average Correlation is:')
+#    print(avgCorrelation)
     RMSEr=sumError/n
+#    print('Average relative error is:')
+#    print(RMSEr)
 
     metrics = [
         {
