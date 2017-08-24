@@ -35,22 +35,26 @@ def matchInputFile(truthFile, testDir):
 
     truthwithoutmat=os.path.splitext(truthFile)[0]
 
-    #print(truthwithoutmat[:-12])
+    #print(truthwithoutmat + "_")
+    #print(len(truthwithoutmat))
 
-    testPathCandidates = [
-        os.path.join(testDir, testFile)
-        for testFile in os.listdir(testDir)
-        if  (truthwithoutmat[:-12] in testFile)
-    ]
-    ##print(testPathCandidates)
+    
+    testPathCandidates = []
+    for testFile in os.listdir(testDir):
+        if  ( truthwithoutmat + "_" == testFile[0:(len(truthwithoutmat)+1)]  ):
+            testPathCandidates.append(os.path.join(testDir, testFile))
+            
+        
+    #print(len(testPathCandidates))
+    #print(testPathCandidates)
     if not testPathCandidates:
         return(0)
-        #raise ScoreException('No matching submission for: %s' % truthFile)
-    elif len(testPathCandidates) > 1:
+        #raise ScoreException('No matching submission for: %s' % truthFile)       
+    elif len(testPathCandidates) > 3:
         raise ScoreException(
             'Multiple matching submissions for: %s' % truthFile)
     else:
-        return testPathCandidates[0]
+        return testPathCandidates
     #print(testPathCandidates[0])
 
 

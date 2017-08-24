@@ -19,6 +19,7 @@
 ###############################################################################
 
 import os
+import numpy as np
 
 from scoreCommon import ScoreException, matchInputFile, loadFileFromPath, computePOT, computeAT, computeLOC
 
@@ -37,112 +38,112 @@ def checkFile(truthPath, testPath):
                              (os.path.basename(testPath), testMatrix.shape[0:2],
                               truthMatrix.shape[0:2]))
 
-def scoreP1(truthPath, testPath, FileType):
+def scoreP1(truthPath, testPath, FileType, metrics):
     truthMatrix = loadFileFromPath(truthPath)
     testMatrix = loadFileFromPath(testPath)
 
     if FileType == 'POT':
         #print (FileType)
-        metrics = computePOT(truthMatrix, testMatrix)
+        metricsUpdate = computePOT(truthMatrix, testMatrix)
+        metrics[1] = metricsUpdate[1]
+        metrics[2] = metricsUpdate[2]
     elif FileType == 'AT':
         #print (FileType)
-        metrics = computeAT(truthMatrix, testMatrix)
+        metricsUpdate = computeAT(truthMatrix, testMatrix)
+        metrics[3] = metricsUpdate[3]
     elif FileType == 'LOC':
         #print (FileType)
-        metrics = computeLOC(truthMatrix, testMatrix)
+        metricsUpdate = computeLOC(truthMatrix, testMatrix)
+        metrics[0] = metricsUpdate[0]
     else:
         raise ScoreException(
             'Internal error: unknown ground truth phase number: %s' %
             os.path.basename(truthPath))
     #metrics.extend(computeSimilarityMetrics(truthBinaryImage, testBinaryImage))
+    
     return metrics
 
-def scoreP2(truthPath, testPath, FileType):
-    truthMatrix = loadFileFromPath(truthPath)
-    testMatrix = loadFileFromPath(testPath)
-
-# todo, implement when phase is available
-
-
-#    if FileType == 'POT':
-#        #print (FileType)
-#        metrics = computePOT(truthMatrix, testMatrix)
-#    elif FileType == 'AT':
-#        #print (FileType)
-#        metrics = computeAT(truthMatrix, testMatrix)
-#    elif FileType == 'LOC':
-#        #print (FileType)
-#        metrics = computeLOC(truthMatrix, testMatrix)
-#    else:
-#        raise ScoreException(
-#            'Internal error: unknown ground truth phase number: %s' %
-#            os.path.basename(truthPath))
-    #metrics.extend(computeSimilarityMetrics(truthBinaryImage, testBinaryImage))
-#    return metrics
-
-def scoreP3(truthPath, testPath, FileType):
-    truthMatrix = loadFileFromPath(truthPath)
-    testMatrix = loadFileFromPath(testPath)
-
-# todo, implement when phase is available
-
-
-#    if FileType == 'POT':
-#        #print (FileType)
-#        metrics = computePOT(truthMatrix, testMatrix)
-#    elif FileType == 'AT':
-#        #print (FileType)
-#        metrics = computeAT(truthMatrix, testMatrix)
-#    elif FileType == 'LOC':
-#        #print (FileType)
-#        metrics = computeLOC(truthMatrix, testMatrix)
-#    else:
-#        raise ScoreException(
-#            'Internal error: unknown ground truth phase number: %s' %
-#            os.path.basename(truthPath))
-#metrics.extend(computeSimilarityMetrics(truthBinaryImage, testBinaryImage))
-#    return metrics
+def findAllHeartbeats(truthDir):
+    
+    cleanTruhDir = []
+    for truthFile in sorted(os.listdir(truthDir)):
+        tempStr = truthFile.rsplit('_')[0] + "_" + truthFile.rsplit('_')[1] + "_" + truthFile.rsplit('_')[2]
+        cleanTruhDir.append(tempStr)
+    
+    uniqueTruhDir = []
+    for x in cleanTruhDir:
+        if x not in uniqueTruhDir:
+            uniqueTruhDir.append(x)
+                
+    return uniqueTruhDir
 
 
 def score(truthDir, testDir):
+
+    # get all the different heartbeats regardless of type of data
+    uniqueTruhDir = findAllHeartbeats(truthDir)
+    
     # Iterate over each file and call scoring executable on the pair
     scores = []
-    for truthFile in sorted(os.listdir(truthDir)):
+    for truthFile in uniqueTruhDir:
 
         #print ('This is File List')
         testPath = matchInputFile(truthFile, testDir)
         if testPath== 0:
             continue
-
-       # print(testPath)
-        truthPath = os.path.join(truthDir, truthFile)
-        #print (truthPath)
-        #print (testPath)
+        
+        metrics = [
+            {
+                'name': 'localization_error',
+                'value': None
+            },
+            {
+                'name':  'potential_correlation',
+                'value': None
+            },
+            {
+                'name': 'potential_RMSE',
+                'value': None
+            },
+            {
+                'name': 'AT_correlation',
+                'value':  None
+    
+            }
+        ]
 
         #print ('-----------------------------')
 
         FileName = truthFile.rsplit('_',1)[0]
-        FileType = truthFile.rsplit('_')[3]
         PhaseNum = truthFile.rsplit('_')[1]
         #print('The PhaseNum is:')
         #print(PhaseNum)
+        #print(testPath)
+        
+        
+        for i in range(len(testPath)):  
+            
+                
+            FileType = testPath[i].rsplit('_')[3]
+            
+            truthPath = os.path.join( truthDir, truthFile + "_" + FileType + "_GroundTruth.mat"  )
+            #print (truthPath)
+            #print (testPath[i])
 
-        checkFile(truthPath, testPath)
+            
+            checkFile(truthPath, testPath[i])
 
-        if PhaseNum == '1':
-            metrics=scoreP1(truthPath, testPath, FileType)
-        elif PhaseNum=='2':
-            raise ScoreException('Error: Phase 2 not implemented yet')
-            # metrics = scoreP2(truthPath, testPath, FileType)
-        elif PhaseNum=='3':
-            #metrics = scoreP3(truthPath, testPath, FileType)
-            raise ScoreException('Error: Phase 3 not implemented yet')
-        else:
-            raise ScoreException(
-                'Error: Phase number must be either 1 or 2 or 3')
-
-        #print(metrics)
-        #print(FileType)
+            
+            #print(FileType)
+        
+            if PhaseNum == '1':
+                metrics=scoreP1(truthPath, testPath[i], FileType, metrics)
+            else:
+                raise ScoreException(
+                    'Error: Phase number must be either 1 or 2 or 3')
+    
+            #print(metrics)
+            #print(FileType)
 
 
         scores.append({
