@@ -132,12 +132,11 @@ def computePOT(truthMatrix, testMatrix):
     for i in range(n):
         truthVec=(truthMatrix[:,i])
         testVec=(testMatrix[:,i])
-		# check if any vector has a constant value
-		if (truthVec != truthVec[0]) & (testVec != testVec[0])  # if not the case, compute pearsons
-        	sumCorrelation= sumCorrelation + scipy.stats.pearsonr(truthVec, testVec)[0]
-		elif (truthVec == truthVec[0]) & (testVec == testVec[0]) # if both do, give correlation 1
-			sumCorrelation= sumCorrelation + 1
-		# need to incorporate a measure for cases where there is only one constant vector
+        # TODO: find more eleigant solution than just 0 for constant inputs
+        if np.sum(np.abs(truthVec-truthVec.mean()))>0 and np.sum(np.abs(testVec-testVec.mean()))>0:
+            sumCorrelation= sumCorrelation + scipy.stats.pearsonr(truthVec, testVec)[0]
+		elif np.sum(np.abs(truthVec-truthVec.mean()))==0 and np.sum(np.abs(testVec-testVec.mean()))==0:
+            sumCorrelation= sumCorrelation + 1
 
         Error_t=math.pow(np.linalg.norm(truthVec-testVec),2)
         magtruthVect = magnitudesqure(truthVec)
