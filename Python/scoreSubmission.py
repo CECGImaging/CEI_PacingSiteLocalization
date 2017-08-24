@@ -27,7 +27,7 @@ import sys
 import zipfile
 
 from scoreCommon import ScoreException
-from scoreP1 import scoreP1
+from scorePhase import score
 #from scoreP2 import scoreP2
 #from scoreP3 import scoreP3
 
@@ -101,7 +101,8 @@ def scoreAll(args):
         truthSubFiles = os.listdir(truthDir)
         if truthSubFiles:
             truthPath = truthSubFiles[0]
-
+    #print('this is truthpath')
+    #print(truthPath)
     if not truthPath:
         raise ScoreException(
             'Internal error: error reading ground truth folder: %s' % truthDir)
@@ -122,14 +123,16 @@ def scoreAll(args):
         raise ScoreException(
             'Internal error: could not parse ground truth file name: %s' %
             os.path.basename(truthPath))
-    phaseNum = truthRe.group(1)
+    phaseNum = truthRe.group()
+    #print('THe phase no is ')
+    #print( phaseNum)
 
-    scores = scoreP1(truthDir, testDir)
+    scores = score(truthDir, testDir)
     if scores==[]:
         raise ScoreException(
             'Internal error: There are no matching submission' )
 
-
+    #print(scores)
     #print ('-------------------------Results are printed here-----------------------------')
     print(json.dumps(scores))
     #print ('-------------------------End of Results-----------------------------')
