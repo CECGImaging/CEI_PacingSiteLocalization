@@ -114,7 +114,7 @@ def score(truthDir, testDir):
 
         #print ('-----------------------------')
 
-        FileName = truthFile.rsplit('_',1)[0]
+        FileName = truthFile.rsplit('_',1)[0] + "_" + testPath[0].rsplit('_')[3]
         PhaseNum = truthFile.rsplit('_')[1]
         #print('The PhaseNum is:')
         #print(PhaseNum)
