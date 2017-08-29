@@ -154,6 +154,7 @@ def computePOT(truthMatrix, testMatrix):
 
 
     avgCorrelation=sumCorrelation/n
+    
 #    print('Average Correlation is:')
 #    print(avgCorrelation)
     RMSEr=sumError/n
