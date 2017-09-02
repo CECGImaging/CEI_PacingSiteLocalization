@@ -72,7 +72,7 @@ for srcScores in allScores:
     
 #%%
 axisIx = 0
-fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(15, 15))
+fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12, 12))
 # pot correlation
 plt.subplot(221)
 plt.violinplot(vecScoresMSE,showmedians=True)
@@ -101,9 +101,9 @@ for srcScores in allScores:
     plt.subplot(222)
     plt.plot(t, vecScoresAPOT[axisIx], 'k.', axisIx+1, np.average(vecScoresAPOT[axisIx]),'ro')
     plt.title('Correlation of potentials')
-    plt.axis([ 0.5,  2.5, -1, 1])
+    plt.axis([ 0.5,  2.5, -0.5, 1])
     plt.xticks([1,2],sourceModels)
-    plt.yticks([-1, -0.5, 0, 0.5, 1])
+    plt.yticks([ -0.5, 0, 0.5, 1])
 #    plt.xlabel('Source Models')
     plt.ylabel('Corr')
     
@@ -111,9 +111,9 @@ for srcScores in allScores:
     plt.subplot(223)
     plt.plot(t, vecScoresAT[axisIx], 'k.', axisIx+1, np.average(vecScoresAT[axisIx]),'ro')
     plt.title('Correlation of activation times')
-    plt.axis([ 0.5,  2.5, -1, 1])
+    plt.axis([ 0.5,  2.5, -0.5, 1])
     plt.xticks([1,2],sourceModels)
-    plt.yticks([-1, -0.5, 0, 0.5, 1])
+    plt.yticks([ -0.5, 0, 0.5, 1])
 #    plt.xlabel('Source Models')
     plt.ylabel('Corr')
     
@@ -121,7 +121,7 @@ for srcScores in allScores:
     plt.subplot(224)
     plt.plot(t, vecScoresLOC[axisIx], 'k.', axisIx+1, np.average(vecScoresLOC[axisIx]),'ro')
     plt.title('PVC localization error')
-    plt.axis([ 0.5,  2.5, 0 , 150])
+    plt.axis([ 0.5,  2.5, 0, 150])
     plt.xticks([1,2],sourceModels)
     plt.yticks(range(0,180,60))
 #    plt.xlabel('Source Models')

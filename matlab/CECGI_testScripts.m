@@ -42,6 +42,8 @@ for srcModel = 1:numel(sourceModelPaths)
 				[D, H] = meshVolDiffHessMatrix(heart,wghFcn);	
 				Lapl = LaplacianMatrixFromHessianMatrix(H);
 
+				% regularize the laplacian
+				Lapl = Lapl + 1e-6*eye(M);
 		end
 	end
 	
@@ -66,11 +68,11 @@ for srcModel = 1:numel(sourceModelPaths)
 						[EGM_sol] = tikhonov_jcf(A, eye(M), eye(N), ECG, vec_lambda, false);
 
 					case 'tikh1'	% Run Tikhonov 1st order
-						vec_lambda = 10.^linspace(-8,-3,1000);
+						vec_lambda = 10.^linspace(-6,-3,1000);
 						[EGM_sol] = tikhonov_jcf(A, D, eye(N), ECG, vec_lambda, false);
 
 					case 'tikh2'	% Run Tikhonov 2nd order
-						vec_lambda = 10.^linspace(-8,-3,1000);
+						vec_lambda = 10.^linspace(-6,-3,1000);
 						[EGM_sol] = tikhonov_jcf(A, Lapl, eye(N), ECG, vec_lambda, false);
 
 					case 'TSVD'		% Run TSVD
@@ -78,7 +80,7 @@ for srcModel = 1:numel(sourceModelPaths)
 					case 'greensite'% Run Isotropy method
 
 					case 'spline'	% Run Spline-inverse
-						vec_lambda = 10.^linspace(-8,-3,1000);
+						vec_lambda = 10.^linspace(-6,-3,1000);
 						[EGM_sol] = splineInverse(A, ECG, D, vec_lambda, false);
 						
 					case 'messnarz'	% run messnarz (if valid assumption)
