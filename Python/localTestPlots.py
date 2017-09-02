@@ -19,7 +19,7 @@ import scoreSubmission as scoreCode
 
 mainPath  = '/Users/jaume/Desktop/PacingDataset/'
 
-sourceModels = ['Epiout','EndoEpiout']
+sourceModels = ['Epiout','EndoEpiout','EndEpiTMPout']
 inverseMethods = ['tikh0','tikh1','tikh2','spline']
 
 class inputData:
@@ -53,10 +53,10 @@ for src in sourceModels:
 #%%### PLOTs
 # Plot MSE
 axisIx = 0
-vecScoresMSE = [[],[]]
-vecScoresAPOT =[[],[]]
-vecScoresAT = [[],[]]
-vecScoresLOC =[[],[]]
+vecScoresMSE = [[],[],[]]
+vecScoresAPOT =[[],[],[]]
+vecScoresAT = [[],[],[]]
+vecScoresLOC =[[],[],[]]
 for srcScores in allScores:
     vecScoresMSE[axisIx] = []
     vecScoresAPOT[axisIx] = []
@@ -91,8 +91,8 @@ for srcScores in allScores:
     plt.subplot(221)
     plt.plot(t, vecScoresMSE[axisIx], 'k.', axisIx+1, np.average(vecScoresMSE[axisIx]),'ro')
     plt.title('MSE of potentials')
-    plt.axis([ 0.5,  2.5, 0, 5])
-    plt.xticks([1,2],sourceModels)
+    plt.axis([ 0.5,  3.5, 0, 5])
+    plt.xticks([1,2,3],sourceModels)
     plt.yticks(range(0,10,2))
 #    plt.xlabel('Source Models')
     plt.ylabel('MSE')
@@ -101,8 +101,8 @@ for srcScores in allScores:
     plt.subplot(222)
     plt.plot(t, vecScoresAPOT[axisIx], 'k.', axisIx+1, np.average(vecScoresAPOT[axisIx]),'ro')
     plt.title('Correlation of potentials')
-    plt.axis([ 0.5,  2.5, -0.5, 1])
-    plt.xticks([1,2],sourceModels)
+    plt.axis([ 0.5,  3.5, -0.5, 1])
+    plt.xticks([1,2,3],sourceModels)
     plt.yticks([ -0.5, 0, 0.5, 1])
 #    plt.xlabel('Source Models')
     plt.ylabel('Corr')
@@ -111,8 +111,8 @@ for srcScores in allScores:
     plt.subplot(223)
     plt.plot(t, vecScoresAT[axisIx], 'k.', axisIx+1, np.average(vecScoresAT[axisIx]),'ro')
     plt.title('Correlation of activation times')
-    plt.axis([ 0.5,  2.5, -0.5, 1])
-    plt.xticks([1,2],sourceModels)
+    plt.axis([ 0.5,  3.5, -0.5, 1])
+    plt.xticks([1,2,3],sourceModels)
     plt.yticks([ -0.5, 0, 0.5, 1])
 #    plt.xlabel('Source Models')
     plt.ylabel('Corr')
@@ -121,8 +121,8 @@ for srcScores in allScores:
     plt.subplot(224)
     plt.plot(t, vecScoresLOC[axisIx], 'k.', axisIx+1, np.average(vecScoresLOC[axisIx]),'ro')
     plt.title('PVC localization error')
-    plt.axis([ 0.5,  2.5, 0, 150])
-    plt.xticks([1,2],sourceModels)
+    plt.axis([ 0.5,  3.5, 0, 150])
+    plt.xticks([1,2,3],sourceModels)
     plt.yticks(range(0,180,60))
 #    plt.xlabel('Source Models')
     plt.ylabel('err')
