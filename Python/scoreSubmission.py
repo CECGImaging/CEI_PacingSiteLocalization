@@ -137,6 +137,59 @@ def scoreAll(args):
     print(json.dumps(scores))
     #print ('-------------------------End of Results-----------------------------')
 
+def scoreAllReturn(args):
+    # Unzip zip files contained in the input folders
+    truthDir = args.groundtruth
+    #print ('This is truth directory:')
+    #print (truthDir)
+    truthZipSubFiles = unzipAll(truthDir, delete=True)
+    #print ('Reached here')
+    #print (truthZipSubFiles)
+    truthPath = None
+    if truthZipSubFiles:
+        truthPath = truthZipSubFiles[0]
+    else:
+        truthSubFiles = os.listdir(truthDir)
+        if truthSubFiles:
+            truthPath = truthSubFiles[0]
+    #print('this is truthpath')
+    #print(truthPath)
+    if not truthPath:
+        raise ScoreException(
+            'Internal error: error reading ground truth folder: %s' % truthDir)
+
+    testDir = args.submission
+    unzipAll(testDir, delete=True)
+    #print ('Unzip of both truth and test files successful!')
+    # Identify which phase this is, based on ground truth file name
+    #print (truthPath)
+    #print (os.path.basename(truthPath))
+    truthRe = re.match(
+        r'^CEIPVC2017_([0-9])_(?:SEPTUMCENTER|LVLAT|LVAPEX|LVANTERIOR|RVPOSTERIOR|RVANTERIOR|LVLATEPI|LVLATENDO)_(?:AT|POT|LOC)'
+        r'_GroundTruth\.mat$',
+        os.path.basename(truthPath))
+    #print ('True path matched')
+    #print (truthRe.group())
+    if not truthRe:
+        raise ScoreException(
+            'Internal error: could not parse ground truth file name: %s' %
+            os.path.basename(truthPath))
+    phaseNum = truthRe.group()
+    #print('THe phase no is ')
+    #print( phaseNum)
+
+    scores = score(truthDir, testDir)
+    if scores==[]:
+        raise ScoreException(
+            'Internal error: There are no matching submission' )
+        
+    #print(scores)
+    #print ('-------------------------Results are printed here-----------------------------')
+#    print(json.dumps(scores))
+    #print ('-------------------------End of Results-----------------------------')
+    
+    return scores
+    
 
 
 if __name__ == '__main__':
