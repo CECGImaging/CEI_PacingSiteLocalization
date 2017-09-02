@@ -135,34 +135,48 @@ def computeAT(truthVector, testVector):
     return metrics
 
 def computePOT(truthMatrix, testMatrix):
-    n=truthMatrix.shape[1]
-    sumCorrelation=0
+    T=truthMatrix.shape[1]
+    N=truthMatrix.shape[0]
+    
+    
+    
+    ## MEAN SQUARED ERROR
     sumError=0
-    for i in range(n):
-        truthVec=(truthMatrix[:,i])
-        testVec=(testMatrix[:,i])
-        # TODO: find more eleigant solution than just 0 for constant inputs
-        if np.sum(np.abs(truthVec-truthVec.mean()))>0 and np.sum(np.abs(testVec-testVec.mean()))>0:
-            sumCorrelation= sumCorrelation + scipy.stats.pearsonr(truthVec, testVec)[0]
-        elif np.sum(np.abs(truthVec-truthVec.mean()))==0 and np.sum(np.abs(testVec-testVec.mean()))==0:
-            sumCorrelation= sumCorrelation + 1
-
-        Error_t=math.pow(np.linalg.norm(truthVec-testVec),2)
-        magtruthVect = magnitudesqure(truthVec)
+    for t in range(T):
+        truthVec=(truthMatrix[:,t])
+        testVec=(testMatrix[:,t])   
+        Error_t = math.pow(np.linalg.norm(truthVec-testVec),2)
+        magtruthVect = math.pow(np.linalg.norm(truthVec),2)
         sumError= sumError + Error_t/magtruthVect
         #print('Individual vectors:')
         #print(truthVec)
         #print(testVec)
         #print(Error_t)
         #print(np.array(truthVec-testVec))
+        
+    RMSEr=sumError/T
+    #print('Average relative error is:')
+    #print(RMSEr)
+    
+    ## CORRELATION OF TEMPORAL SIGNALS
+    sumCorrelation=0
+    for n in range(N):
+        truthVec=(truthMatrix[n,:])
+        testVec=(testMatrix[n,:])
+        
+        # TODO: find more eleigant solution than just 0 for constant inputs
+        if np.sum(np.abs(truthVec-truthVec.mean()))>0 and np.sum(np.abs(testVec-testVec.mean()))>0:
+            sumCorrelation= sumCorrelation + scipy.stats.pearsonr(truthVec, testVec)[0]
+            
+        elif np.sum(np.abs(truthVec-truthVec.mean()))==0 and np.sum(np.abs(testVec-testVec.mean()))==0:
+            sumCorrelation= sumCorrelation + 1
+        
+        
+    avgCorrelation = sumCorrelation/N
+    #print('Average Correlation is:')
+    #print(avgCorrelation)
 
 
-    avgCorrelation=sumCorrelation/n
-#    print('Average Correlation is:')
-#    print(avgCorrelation)
-    RMSEr=sumError/n
-#    print('Average relative error is:')
-#    print(RMSEr)
 
     metrics = [
         {
