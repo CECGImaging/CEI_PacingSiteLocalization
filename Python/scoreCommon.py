@@ -142,7 +142,8 @@ def computePOT(truthMatrix, testMatrix):
         truthVec=(truthMatrix[:,t])
         testVec=(testMatrix[:,t])   
         Error_t = math.pow(np.linalg.norm(truthVec-testVec),2)
-        magtruthVect = math.pow(np.linalg.norm(truthVec),2)
+        #magtruthVect = math.pow(np.linalg.norm(truthVec),2)
+        magtruthVect = magnitudesqure(truthVec)
         sumError= sumError + Error_t/magtruthVect
         #print('Individual vectors:')
         #print(truthVec)
