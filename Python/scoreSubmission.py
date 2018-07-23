@@ -115,7 +115,7 @@ def scoreAll(args):
     #print (os.path.basename(truthPath))
     truthRe = re.match(
         r'^CEIPVC2017_([0-9])_(?:SEPTUMCENTER|LVLAT|LVAPEX|LVANTERIOR|RVPOSTERIOR|RVANTERIOR|LVLATEPI|LVLATENDO)_(?:AT|POT|LOC)'
-        r'_GroundTruth\.mat$',
+        r'_GroundTruth(?:|_[0-9])\.mat$',
         os.path.basename(truthPath))
     #print ('True path matched')
     #print (truthRe.group())
