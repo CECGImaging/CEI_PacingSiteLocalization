@@ -120,34 +120,37 @@ def score(truthDir, testDir):
         #print (testPath)
 
         #print ('-----------------------------')
+        for testFile in testPath:
+            #print('Test file is :', testFile)
+            FileName = testFile.rsplit('/',1)[1]
+            FileName=FileName[:-4]
+            #print('File name is:', FileName)
+            FileType = truthFile.rsplit('_')[3]
+            PhaseNum = truthFile.rsplit('_')[1]
+            #print('The PhaseNum is:')
+            #print(PhaseNum)
 
-        FileName = truthFile.rsplit('_',1)[0]
-        FileType = truthFile.rsplit('_')[3]
-        PhaseNum = truthFile.rsplit('_')[1]
-        #print('The PhaseNum is:')
-        #print(PhaseNum)
+            checkFile(truthPath, testFile)
 
-        checkFile(truthPath, testPath)
+            if PhaseNum == '1':
+                metrics=scoreP1(truthPath, testFile, FileType)
+            elif PhaseNum=='2':
+                raise ScoreException('Error: Phase 2 not implemented yet')
+                # metrics = scoreP2(truthPath, testPath, FileType)
+            elif PhaseNum=='3':
+                #metrics = scoreP3(truthPath, testPath, FileType)
+                raise ScoreException('Error: Phase 3 not implemented yet')
+            else:
+                raise ScoreException(
+                    'Error: Phase number must be either 1 or 2 or 3')
 
-        if PhaseNum == '1':
-            metrics=scoreP1(truthPath, testPath, FileType)
-        elif PhaseNum=='2':
-            raise ScoreException('Error: Phase 2 not implemented yet')
-            # metrics = scoreP2(truthPath, testPath, FileType)
-        elif PhaseNum=='3':
-            #metrics = scoreP3(truthPath, testPath, FileType)
-            raise ScoreException('Error: Phase 3 not implemented yet')
-        else:
-            raise ScoreException(
-                'Error: Phase number must be either 1 or 2 or 3')
-
-        #print(metrics)
-        #print(FileType)
+            #print(metrics)
+            #print(FileType)
 
 
-        scores.append({
-            'dataset': FileName,
-            'metrics': metrics
-        })
+            scores.append({
+                'dataset': FileName,
+                'metrics': metrics
+            })
 
     return scores
