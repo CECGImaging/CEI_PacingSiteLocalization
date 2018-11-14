@@ -61,6 +61,15 @@ def scoreP2(truthPath, testPath, FileType):
     truthMatrix = loadFileFromPath(truthPath)
     testMatrix = loadFileFromPath(testPath)
 
+    if FileType == 'LOC':
+        #print (FileType)
+        metrics = computeLOC(truthMatrix, testMatrix)
+    else:
+        raise ScoreException(
+            'Internal error: unknown ground truth phase number: %s' %
+            os.path.basename(truthPath))
+    #metrics.extend(computeSimilarityMetrics(truthBinaryImage, testBinaryImage))
+    return metrics
 # todo, implement when phase is available
 
 
@@ -135,8 +144,8 @@ def score(truthDir, testDir):
             if PhaseNum == '1':
                 metrics=scoreP1(truthPath, testFile, FileType)
             elif PhaseNum=='2':
-                raise ScoreException('Error: Phase 2 not implemented yet')
-                # metrics = scoreP2(truthPath, testPath, FileType)
+                # raise ScoreException('Error: Phase 2 not implemented yet')
+                metrics = scoreP2(truthPath, testPath, FileType)
             elif PhaseNum=='3':
                 #metrics = scoreP3(truthPath, testPath, FileType)
                 raise ScoreException('Error: Phase 3 not implemented yet')
