@@ -114,7 +114,7 @@ def scoreAll(args):
     #print (truthPath)
     #print (os.path.basename(truthPath))
     truthRe = re.match(
-        r'^CEIPVC2017_([0-9])_(?:SEPTUMCENTER|LVLAT|LVAPEX|LVANTERIOR|RVPOSTERIOR|RVANTERIOR|LVLATEPI|LVLATENDO|KITClinicalPVC1|DalhousieClinical)_(?:AT|POT|LOC)'
+        r'^CEIPVC2017_([0-9])_(?:SEPTUMCENTER|LVLAT|LVAPEX|LVANTERIOR|RVPOSTERIOR|RVANTERIOR|LVLATEPI|LVLATENDO|KITClinicalPACE|KITClinicalPVC|DalhousieClinical)(?:|[0-9])_(?:AT|POT|LOC)'
         r'_GroundTruth(?:|_[0-9])\.mat$',
         os.path.basename(truthPath))
     #print ('True path matched')
