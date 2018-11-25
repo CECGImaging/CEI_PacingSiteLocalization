@@ -58,27 +58,19 @@ def scoreP1(truthPath, testPath, FileType):
     return metrics
 
 def scoreP2(truthPath, testPath, FileType):
+    
     truthMatrix = loadFileFromPath(truthPath)
     testMatrix = loadFileFromPath(testPath)
 
-# todo, implement when phase is available
-
-
-#    if FileType == 'POT':
-#        #print (FileType)
-#        metrics = computePOT(truthMatrix, testMatrix)
-#    elif FileType == 'AT':
-#        #print (FileType)
-#        metrics = computeAT(truthMatrix, testMatrix)
-#    elif FileType == 'LOC':
-#        #print (FileType)
-#        metrics = computeLOC(truthMatrix, testMatrix)
-#    else:
-#        raise ScoreException(
-#            'Internal error: unknown ground truth phase number: %s' %
-#            os.path.basename(truthPath))
+    if FileType == 'LOC':
+        #print (FileType)
+        metrics = computeLOC(truthMatrix, testMatrix)
+    else:
+        raise ScoreException(
+            'Internal error: unknown ground truth phase number: %s' %
+            os.path.basename(truthPath))
     #metrics.extend(computeSimilarityMetrics(truthBinaryImage, testBinaryImage))
-#    return metrics
+    return metrics
 
 def scoreP3(truthPath, testPath, FileType):
     truthMatrix = loadFileFromPath(truthPath)
@@ -135,7 +127,8 @@ def score(truthDir, testDir):
             if PhaseNum == '1':
                 metrics=scoreP1(truthPath, testFile, FileType)
             elif PhaseNum=='2':
-                raise ScoreException('Error: Phase 2 not implemented yet')
+                metrics=scoreP2(truthPath, testFile, FileType)
+                # raise ScoreException('Error: Phase 2 not implemented yet')
                 # metrics = scoreP2(truthPath, testPath, FileType)
             elif PhaseNum=='3':
                 #metrics = scoreP3(truthPath, testPath, FileType)
