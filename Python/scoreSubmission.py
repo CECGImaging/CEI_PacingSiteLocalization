@@ -91,7 +91,7 @@ def scoreAll(args):
     truthDir = args.groundtruth
     #print ('This is truth directory:')
     #print (truthDir)
-    truthZipSubFiles = unzipAll(truthDir, delete=True)
+    truthZipSubFiles = unzipAll(truthDir, delete=False)
     #print ('Reached here')
     #print (truthZipSubFiles)
     truthPath = None
